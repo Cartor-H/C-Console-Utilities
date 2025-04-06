@@ -4,9 +4,8 @@
 #include <math.h>
 #include <regex.h>
 
-
-
 #include "strings.h"
+#include "cartor_console.h"
 
 // Create String From StringLine
 String lineToString(StringLine str) {
@@ -22,6 +21,112 @@ String mtrxToString(StringMtrx str) {
     result.type = STRING_MTRX;
     result.data.Mtrx = str;
     return result;
+}
+
+
+/**
+ * Get Properties From String
+ */
+
+/**
+ * Get Width
+ */
+int strWidth(String str) {
+    switch (str.type) {
+        case STRING_LINE:
+            return str.data.Line.len;
+        case STRING_MTRX:
+            return str.data.Mtrx.width;
+        default:
+            fprintf(stderr, "Error: Unknown string type.\n");
+            exit(EXIT_FAILURE);
+    }
+}
+
+/**
+ * Get Height
+ */
+int strHeight(String str) {
+    switch (str.type) {
+        case STRING_LINE:
+            return 1;
+        case STRING_MTRX:
+            return str.data.Mtrx.height;
+        default:
+            fprintf(stderr, "Error: Unknown string type.\n");
+            exit(EXIT_FAILURE);
+    }
+}
+
+/**
+ * Get Display Width
+ */
+int strDispWidth(String str) {
+    switch (str.type) {
+        case STRING_LINE:
+            return str.data.Line.disp_len;
+        case STRING_MTRX:
+            return str.data.Mtrx.disp_width;
+        default:
+            fprintf(stderr, "Error: Unknown string type.\n");
+            exit(EXIT_FAILURE);
+    }
+}
+
+
+/**
+ * Get Row
+ * 
+ * @param str The string to get the row from
+ * @param row The row index to get
+ * @return The row as a String
+ */
+String getRow(String str, int row) {
+    switch (str.type) {
+        case STRING_LINE:
+            return lineToString(str.data.Line);
+        case STRING_MTRX:
+            if (row < 0 || row >= str.data.Mtrx.height) {
+                fprintf(stderr, "Error: Row index out of bounds.\n");
+                exit(EXIT_FAILURE);
+            }
+            return lineToString(str.data.Mtrx.rows[row]);
+        default:
+            fprintf(stderr, "Error: Unknown string type.\n");
+            exit(EXIT_FAILURE);
+    }
+}
+
+
+char*  str2char(String str) {
+    switch (str.type) {
+        case STRING_LINE:
+            return str.data.Line.val;
+        case STRING_MTRX:
+            // Concatenate all rows into a single string
+            {
+                size_t total_length = 1; // +1 for null terminator
+                for (int i = 0; i < str.data.Mtrx.height; i++) {
+                    total_length += str.data.Mtrx.rows[i].len + 1; // +1 for newline
+                }
+                char *result = malloc(total_length);
+                if (result == NULL) {
+                    fprintf(stderr, "Memory allocation failed\n");
+                    exit(EXIT_FAILURE);
+                }
+                result[0] = '\0'; // Initialize the string
+                for (int i = 0; i < str.data.Mtrx.height; i++) {
+                    strcat(result, str.data.Mtrx.rows[i].val);
+                    if (i < str.data.Mtrx.height - 1) {
+                        strcat(result, "\n");
+                    }
+                }
+                return result;
+            }
+        default:
+            fprintf(stderr, "Error: Unknown string type.\n");
+            exit(EXIT_FAILURE);
+    }
 }
 
 
@@ -42,6 +147,7 @@ String charToString(char *str) {
 
     // Count & Sepparate str Based On New Lines
     char *line = strtok(content_copy, "\n");
+
     // No new lines
     if (!line) {
         result.type = STRING_LINE;
@@ -107,11 +213,6 @@ String charToString(char *str) {
         // Free the content_copy
         free(content_copy);
     }
-
-    result.type = STRING_LINE;
-    result.data.Line.val = str;
-    result.data.Line.len = strlen(str);
-    result.data.Line.disp_len = result.data.Line.len; // Assuming no special characters for now
     return result;
 }
 

@@ -1,7 +1,12 @@
+#ifndef STRINGS_H
+#define STRINGS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+#include "cartor_console.h"
 
 #define UNUSED(x) (void)(x)
 
@@ -53,9 +58,48 @@ String chr2str(char *str);
 String int2str(int num);
 String flt2str(float num);
 
+char*  str2char(String str);
+
+/**
+ * Get Properties From String
+ */
+int    strWidth(String str);
+int    strHeight(String str);
+int    strDispWidth(String str);
+String getRow(String str, int row);
+
+
 int get_disp_len(char *str);
 
 String concat(String str1, String str2);
 
 void print(String str);
 void printnl(String str);
+
+
+String rainbow(String str);
+String colorLoop(String str, ColorList colors);
+
+// Gradient
+String strGrad(String str, ColorRGB start, ColorRGB end);
+
+ColorList getGrad(int num_colors, ColorRGB start, ColorRGB end);
+ColorRGB  getRGB(int r, int g, int b);
+char*     getColor(int r, int g, int b);
+
+// Parsing:
+
+/*
+<function: color1, color2, color3, ...>
+    <name_of_text_param_1>
+        TEXT_1
+    </name_of_text_param_1>
+    <name_of_text_param_2>
+        TEXT_2
+    </name_of_text_param_2>
+</function>
+
+*/
+
+
+#endif // STRINGS_H

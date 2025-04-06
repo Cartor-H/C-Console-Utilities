@@ -1,7 +1,12 @@
+#ifndef CARTOR_CONSOLE_H
+#define CARTOR_CONSOLE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+#include "strings.h"
 
 // Colors
 #define C_R "\033[0m"
@@ -51,6 +56,20 @@
 #define C_LN       C_WHT
 #define C_BLN  C_B C_LN
 
+typedef struct {
+    char *val;
+} ColorNode;
+
+typedef struct {
+    ColorNode *nodes;
+    int size;
+} ColorList;
+
+typedef struct {
+    int r;
+    int g;
+    int b;
+} ColorRGB;
 
 // Characters (CH=K)
 #define K_RCUR "╰"      // Round Corner Up Right
@@ -169,4 +188,7 @@ void cartor_init();
 void cartor_exit();
 int  get_terminal_size(int *width, int *height);
 void draw_horizontal_line(int length, int offset, const char *start_type, const char *end_type, const char *line_type);
-void draw_open_bubble(const char *border_color, const char *title_color, char *title, const char *content_color, char *content);
+void draw_open_bubble(const char *border_color, const char *title_color, String title, const char *content_color, String content);
+
+
+#endif // CARTOR_CONSOLE_H

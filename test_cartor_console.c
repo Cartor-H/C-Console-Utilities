@@ -20,11 +20,11 @@ int main() {
     draw_open_bubble(
         C_WHT,
         C_RED,
-        "Title",
+        chr2str("Title"),
         C_LRED,
-        "This is a "C_VAR C_U"test"C_R C_LRED" of the open bubble\n"
+        chr2str("This is a "C_VAR C_U"test"C_R C_LRED" of the open bubble\n"
         "It should be able to handle "C_I"multiple"C_R C_LRED" lines\n"
-        "And it should look nice\n"
+        "And it should look nice\n")
     );
 
     print(charToString("This is a test"));
