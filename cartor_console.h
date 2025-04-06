@@ -56,21 +56,6 @@
 #define C_LN       C_WHT
 #define C_BLN  C_B C_LN
 
-typedef struct {
-    char *val;
-} ColorNode;
-
-typedef struct {
-    ColorNode *nodes;
-    int size;
-} ColorList;
-
-typedef struct {
-    int r;
-    int g;
-    int b;
-} ColorRGB;
-
 // Characters (CH=K)
 #define K_RCUR "╰"      // Round Corner Up Right
 #define K_RCUL "╯"      // Round Corner Up Left
@@ -179,16 +164,20 @@ typedef struct {
 
 //──────────────────────────────╌┄┈
 
+// Maybe make a separate color library
+
 
 extern int TRM_W;
 extern int TRM_H;
-
 
 void cartor_init();
 void cartor_exit();
 int  get_terminal_size(int *width, int *height);
 void draw_horizontal_line(int length, int offset, const char *start_type, const char *end_type, const char *line_type);
 void draw_open_bubble(const char *border_color, const char *title_color, String title, const char *content_color, String content);
+// void draw_table_header(String[] headers, int num_headers, const char *header_color, const char *border_color, const char* border_type, const char *title_color, String title);
+// void draw_table_row   (String[] headers, int num_headers, const char *header_color, const char *border_color, const char* border_type);
+
 
 
 #endif // CARTOR_CONSOLE_H

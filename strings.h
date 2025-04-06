@@ -6,7 +6,7 @@
 #include <string.h>
 #include <math.h>
 
-#include "cartor_console.h"
+// #include "cartor_console.h"
 
 #define UNUSED(x) (void)(x)
 
@@ -75,6 +75,22 @@ String concat(String str1, String str2);
 
 void print(String str);
 void printnl(String str);
+
+
+typedef struct {
+    char *val;
+} ColorNode;
+
+typedef struct {
+    ColorNode *nodes;
+    int size;
+} ColorList;
+
+typedef struct {
+    int r;
+    int g;
+    int b;
+} ColorRGB;
 
 
 String rainbow(String str);
